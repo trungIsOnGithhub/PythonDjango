@@ -16,7 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from webmod import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', views.home, name='home'),
+    path('logout/', views.logout_user, name='logout'),
+    path('register/', views.register_user, name='register'),
+    # path('record', views.
+    path('record/<int:pk>', views.customer_record, name='record'),
+    path('record/delete/<int:pk>', views.delete_record, name='delete_record'),
+    path('/record/add/', views.add_record, name='add_record'),
+    path('record/update/<int:pk>', views.update_record, name='update_record'),
 ]
