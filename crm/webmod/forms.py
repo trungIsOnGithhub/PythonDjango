@@ -26,9 +26,9 @@ class SignUpForm(UserCreationForm):
 		self.fields['password-confirm'].help_text = '<ul class="form-text text-muted small"><li>Your password can\'t be too similar to your other personal information.</li><li>Your password must contain at least 8 characters.</li><li>Your password can\'t be a commonly used password.</li></ul>'
 
 		self.fields['password'].widget.attrs['class'] = 'form-control'
-		self.fields['password'].widget.attrs['placeholder'] = 'Password'
+		self.fields['password'].widget.attrs['placeholder'] = 'Confirm Password'
 		self.fields['password'].label = ''
-		self.fields['password'].help_text = '<p>Confirm yout password!</p>'
+		self.fields['password'].help_text = '<p>Confirm yout password, Type the same password as before!</p>'
 
 class AddRecordForm(forms.ModelForm):
 	first_name = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"class":"form-control", "placeholder":"First Name"}), label="")
