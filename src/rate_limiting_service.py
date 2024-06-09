@@ -23,12 +23,22 @@ class TimeUnit(Enum):
     WEEK = 3
     MONTH = 4
 
+class ClientIntervalRequestsLimit:
+    TimeUnit timeUnit
+    maxRequests: long
+
 @dataclass
 class Message:
     SUCCESS = "Success"
     FAILURE = "Failure"
     ADD_CLIENT_SUCCESS = "Client configured successfully"
     NO_LIMIT_APPLICABLE = "No limits applicable"
+
+class ClientLimitsConfigRequest:
+    limit_type: LimitType
+    limit_name: str
+    time_interval_limits: List[ClientIntervalRequestsLimit]
+}
 
 @dataclass
 class ClientRateLimitData:
