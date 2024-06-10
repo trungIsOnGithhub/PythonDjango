@@ -15,5 +15,3 @@
 4. In the ```crm``` folder, run project with ```python manage.py runserver``` for developing
 
 5. Application will run in  ```localhost:8000``` as default
-
-##### Inspired by this [tutorial](https://www.youtube.com/watch?v=t10QcFx7d5k)
