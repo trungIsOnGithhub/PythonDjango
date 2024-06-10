@@ -38,7 +38,7 @@ class ClientLimitsConfigRequest:
     limit_type: LimitType
     limit_name: str
     time_interval_limits: List[ClientIntervalRequestsLimit]
-}
+
 
 @dataclass
 class ClientRateLimitData:
@@ -89,13 +89,13 @@ def verify_api_limit(client_api_request : ClientApiRequest):
                 )
 
                 if updated_available_permits < 1:
-                    logger.warn(
-                        f"API rate limit reached for ClientData-Id: {client_api_limit.client_id}, "
-                        f"availablePermits: {client_api_limit.available_permits}, "
-                        f"maxPermits: {client_api_limit.max_permits}, "
-                        f"limitType: {client_api_limit.limit_type}, "
-                        f"timeUnit: {client_api_limit.time_unit}"
-                    )
+                    logger.warn(f'''
+                        API rate limit reached for ClientData-Id: {client_api_limit.client_id}-
+                        availablePermits: {client_api_limit.available_permits}-
+                        maxPermits: {client_api_limit.max_permits}-
+                        limitType: {client_api_limit.limit_type}-
+                        timeUnit: {client_api_limit.time_unit}-
+                    ''')
                     return (
                         Status.FAILURE,
                         f"Limit: {client_api_limit.limit_name}, limitType: {client_api_limit.limit_type}, "
