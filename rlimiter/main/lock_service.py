@@ -2,14 +2,16 @@ import logging
 from typing import Dict
 from threading import Lock
 from dataclasses import dataclass
+from abc import ABC, abstractmethod
 
 @dataclass
 class ClientData:
     client_id: str
 
-class ClientDataSource:
+class ClientDataSource(ABC):
+    @abstractmethod
     def find_all(self) -> list[ClientData]:
-        return [ClientData(client_id='client-1'), ClienData(client_id='client-2'), ClientData('client-3')] # temporarily hard coded data
+        
 
 class ClientLockService:
     def __init__(self, data_source: ClientDataSource):
@@ -20,10 +22,13 @@ class ClientLockService:
 
     def initialize_client_locks(self):
         configured_clients = self.data_source.find_all()
-        self.client_locks = {client.client_id: Lock() for client in configured_clients}
+        self.client_locks = { client.client_id: Lock() for client in configured_clients }
 
     def add_client(self, client_id: str):
-        self.client_locks[client_id] = Lock()
+        try:
+            self.client_locks[client_id] = Lock()
+        except:
+            logging.error(f"Cannot create Lock for client id: {client_id}")
 
     def acquire_lock(self, client_id: str):
         client_lock = self.get_and_validate_client_lock(client_id)
@@ -34,9 +39,14 @@ class ClientLockService:
         client_lock.release()
 
     def get_and_validate_client_lock(self, client_id: str) -> Lock:
-        client_lock = self.client_locks.get(client_id)
-        if client_lock is None:
-            logging.error(f"Lock doesn't exist for ClientData-Id: {client_id}... Invalid client?")
+        if client_id not in self.client_locks:
+            logging.error(f"Access non-exist ClientId: {client_id}...")
             raise ValueError("Invalid client-id")
-        return client_lock
 
+        client_lock = self.client_locks.get(client_id, None)
+
+        if client_lock is None:
+            logging.error(f"Access non-exist ClientId: {client_id}...")
+            raise ValueError("Invalid client-id")
+
+        return client_lock
