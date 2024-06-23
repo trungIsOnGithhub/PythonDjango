@@ -33,8 +33,7 @@ class RateLimitingService:
                         client_api_limit.available_permits + elapsed_time_units * client_api_limit.max_permits
                     )
 
-                    if updated_available_permits > client_api_limit.available_permits:
-
+                    if updated_available_permits < 1:
                         return Status.FAILURE
 
                     # Update Current Limit
