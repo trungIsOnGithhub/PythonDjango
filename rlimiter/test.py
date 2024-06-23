@@ -9,7 +9,7 @@ from main.lock_service import *
 
 class TestDataSource(ClientDataSource):
     def find_all(self) -> list[ClientData]:
-        return [ ClientData(client_id='client-1'), ClienData(client_id='client-2'), ClientData('client-3') ] # temporarily hard coded data
+        return [ ClientData(client_id='client-1'), ClientData(client_id='client-2'), ClientData('client-3') ] # temporarily hard coded data
 
 # class TestLockService(unittest.TestCase):
 #     @classmethod
@@ -25,5 +25,5 @@ if __name__ == '__main__':
     lock_service.initialize_client_locks()
     lock_service.add_client('client-69')
 
-    print(lock_service.get_and_validate_client_lock('client-1'))
-    print(lock_service.get_and_validate_client_lock('client-69'))
+    print(lock_service.get_and_validate_lock('client-1'))
+    print(lock_service.get_and_validate_ lock('client-69'))

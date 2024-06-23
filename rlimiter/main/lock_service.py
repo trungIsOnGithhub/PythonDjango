@@ -3,6 +3,7 @@ from typing import Dict
 from threading import Lock
 from dataclasses import dataclass
 from abc import ABC, abstractmethod
+from models import *
 
 @dataclass
 class ClientData:
@@ -11,13 +12,13 @@ class ClientData:
 class ClientDataSource(ABC):
     @abstractmethod
     def find_all(self) -> list[ClientData]:
+        pass
         
 
 class ClientLockService:
     def __init__(self, data_source: ClientDataSource):
         self.data_source = data_source
         self.client_locks: Dict[str, Lock] = {}
-
         self.initialize_client_locks()
 
     def initialize_client_locks(self):
@@ -38,7 +39,7 @@ class ClientLockService:
         client_lock = self.get_and_validate_client_lock(client_id)
         client_lock.release()
 
-    def get_and_validate_client_lock(self, client_id: str) -> Lock:
+    def get_and_validate_lock(self, client_id: str) -> Lock:
         if client_id not in self.client_locks:
             logging.error(f"Access non-exist ClientId: {client_id}...")
             raise ValueError("Invalid client-id")
