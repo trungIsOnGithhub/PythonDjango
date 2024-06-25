@@ -1,4 +1,6 @@
+from dataclasses import dataclass
 from enum import Enum
+from typing import List
 
 class ApiMethod(Enum):
     GET = 0
@@ -21,17 +23,19 @@ class TimeUnit(Enum):
     MIN = 1
     HOUR = 2
 
-class ClientIntervalRequestsLimit:
-    TimeUnit timeUnit
-    maxRequests: long
-
-@dataclass
-class Message:
+class Message(Enum):
     SUCCESS = "Success"
     FAILURE = "Failure"
     ADD_CLIENT_SUCCESS = "Client configured successfully"
     NO_LIMIT_APPLICABLE = "No limits applicable"
 
+
+@dataclass
+class ClientIntervalRequestsLimit:
+    timeUnit: TimeUnit
+    maxRequests: int
+
+@dataclass
 class ClientLimitsConfigRequest:
     limit_type: LimitType
     limit_name: str
@@ -39,6 +43,6 @@ class ClientLimitsConfigRequest:
 
 @dataclass
 class ClientApiRequest:
-    client_id str
-    method ApiMethod
-    api_name str
+    client_id: str
+    method: ApiMethod
+    api_name: str
